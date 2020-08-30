@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Login from "./components/login/Login";
+import Player from './components/player/Player';
 import { getTokenFromUrl } from "./spotifyApi";
 import SpotifyWebApi from 'spotify-web-api-js';
 import "./App.css";
@@ -32,10 +33,8 @@ function App() {
   return (
     <div className="app">
       {token ? (
-        // <Player />
-        <h1>I am logged</h1>
+        <Player />
       ) : (
-        // <Login />
         <Login />
       )}
     </div>
