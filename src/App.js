@@ -25,20 +25,62 @@ function App() {
 
       spotify.setAccessToken(_token);
 
-      spotify.getMe().then((userInfo) => {
+      /*       spotify.getMe().then((userInfo) => {
         console.log("user", userInfo);
         dispatch({
           type: userTypes.SET_USER,
           user: userInfo,
         });
-      });
+      }); */
 
-      spotify.getUserPlaylists().then((playlists) => {
+      const getSpotifyMe = async () => {
+        try {
+          const spotifyMe = await spotify.getMe();
+          dispatch({
+            type: userTypes.SET_USER,
+            user: spotifyMe,
+          });
+        } catch (error) {
+          return error;
+        }
+      };
+
+      const getUserPlaylist = async () => {
+        try {
+          const spotifyUserPlaylist = await spotify.getUserPlaylists();
+          dispatch({
+            type: userTypes.SET_PLAYLISTS,
+            playlists: spotifyUserPlaylist,
+          });
+        } catch (error) {
+          return error;
+        }
+      };
+
+      /*       spotify.getUserPlaylists().then((playlists) => {
         dispatch({
           type: userTypes.SET_PLAYLISTS,
           playlists,
         });
-      });
+      }); */
+
+      const getPlaylist = async () => {
+        try {
+          const spotifyDiscoverWeekly = await spotify.getPlaylist(
+            "37i9dQZEVXcHUlSyZiqgbN"
+          );
+          dispatch({
+            type: userTypes.SET_DISCOVER_WEEKLY,
+            discoverWeekly: spotifyDiscoverWeekly,
+          });
+        } catch (error) {
+          return error;
+        }
+      };
+
+      getSpotifyMe();
+      getUserPlaylist();
+      getPlaylist()
     }
   }, []);
 
