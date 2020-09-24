@@ -7,7 +7,7 @@ import "./Sidebar.css";
 import { useStateValue } from "../../context/provider/provider";
 
 const Sidebar = () => {
-  const [{ playlists }, dispatch] = useStateValue();
+  const [{ playlists }] = useStateValue();
   return (
     <div className="sidebar">
       <img
@@ -21,9 +21,11 @@ const Sidebar = () => {
       <br />
       <strong className="sidebar__title">PLAYLISTS</strong>
       <hr />
-      {playlists?.items?.map((playlist) => (
-        <SidebarOption title={playlist.name} />
-      ))}
+      <div className="sidebar__playlists">
+        {playlists?.items?.map((playlist) => (
+          <SidebarOption title={playlist.name} />
+        ))}
+      </div>
     </div>
   );
 };
