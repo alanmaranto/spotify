@@ -16,8 +16,8 @@ const Header = () => {
         <input type="text" placeholder="Search for Artists, Songs or Albums" />
       </div>
       <div className="header__right">
-        <Avatar src={user?.images[0].url} alt="AM"></Avatar>
-        <h4>{user?.name}</h4>
+        <Avatar src={user?.images[0].url} alt={user?.display_name}></Avatar>
+        <h4>{user?.display_name}</h4>
       </div>
     </div>
   );
