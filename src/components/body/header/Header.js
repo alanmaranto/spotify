@@ -5,9 +5,7 @@ import { useStateValue } from "../../../context/provider/provider";
 import "./Header.css";
 
 const Header = () => {
-  const [{ user }, dispatch] = useStateValue();
-
-  console.log(user);
+  const [{ user }] = useStateValue();
 
   return (
     <div className="header">

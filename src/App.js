@@ -25,14 +25,6 @@ function App() {
 
       spotify.setAccessToken(_token);
 
-      /*       spotify.getMe().then((userInfo) => {
-        console.log("user", userInfo);
-        dispatch({
-          type: userTypes.SET_USER,
-          user: userInfo,
-        });
-      }); */
-
       const getSpotifyMe = async () => {
         try {
           const spotifyMe = await spotify.getMe();
@@ -57,13 +49,6 @@ function App() {
         }
       };
 
-      /*       spotify.getUserPlaylists().then((playlists) => {
-        dispatch({
-          type: userTypes.SET_PLAYLISTS,
-          playlists,
-        });
-      }); */
-
       const getPlaylist = async () => {
         try {
           const spotifyDiscoverWeekly = await spotify.getPlaylist(
@@ -82,7 +67,7 @@ function App() {
       getUserPlaylist();
       getPlaylist()
     }
-  }, []);
+  }, [token, dispatch]);
 
   return (
     <div className="app">
