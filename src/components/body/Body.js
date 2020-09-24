@@ -1,14 +1,51 @@
 import React from "react";
 import Header from "./header/Header";
 import { useStateValue } from "../../context/provider/provider";
-import SongRow from './songRow/SongRow'
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import { userTypes } from "../../context/types/types";
+import SongRow from "./songRow/SongRow";
+import { MoreHoriz, Favorite, PlayCircleFilled } from "@material-ui/icons";
 import "./Body.css";
 
 const Body = ({ spotify }) => {
   const [{ discoverWeekly }, dispatch] = useStateValue();
+
+  const playPlaylist = async () => {
+    try {
+      await spotify.play({
+        context_uri: `spotify:playlist:37i9dQZEVXcHUlSyZiqgbN`,
+      });
+      const currentPlayingTrack = await spotify.getMyCurrentPlayingTrack();
+      dispatch({
+        type: userTypes.SET_ITEM,
+        item: currentPlayingTrack.item,
+      });
+      dispatch({
+        type: userTypes.SET_PLAYING,
+        playing: true,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const playSong = async (id) => {
+    try {
+      const play = await spotify.play({
+        uris: [`spotify:track:${id}`],
+      });
+      const getCurrentPlayingTrack = await spotify.getMyCurrentPlayingTrack();
+      dispatch({
+        type: userTypes.SET_ITEM,
+        item: getCurrentPlayingTrack.item,
+      });
+      dispatch({
+        type: userTypes.SET_PLAYING,
+        playing: true,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
 
   return (
     <div className="body">
@@ -25,13 +62,14 @@ const Body = ({ spotify }) => {
 
       <div className="body__songs">
         <div className="body__icons">
-          <PlayCircleFilledIcon className="body__shuffle" />
-          <FavoriteIcon fontSize="large" />
-          <MoreHorizIcon />
+          <PlayCircleFilled className="body__shuffle" onClick={playPlaylist} />
+          <Favorite fontSize="large" />
+          <MoreHoriz />
         </div>
-        {discoverWeekly?.tracks.items.map(item => <SongRow track={item.track} />)}
+        {discoverWeekly?.tracks.items.map((item) => (
+          <SongRow playSong={playSong} track={item.track} />
+        ))}
       </div>
-
     </div>
   );
 };
