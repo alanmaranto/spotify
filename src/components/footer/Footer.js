@@ -1,38 +1,141 @@
-import React from "react";
-import ShuffleIcon from '@material-ui/icons/Shuffle'
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious'
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleFilledOutlined'
-import SkipNextIcon from '@material-ui/icons/SkipNext'
-import RepeatIcon from '@material-ui/icons/Repeat'
-import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay'
-import VolumeDownIcon from '@material-ui/icons/VolumeDown'
-import "./Footer.css";
+/* eslint-disable jsx-a11y/alt-text */
+import React, { useEffect } from "react";
+import { useStateValue } from "../../context/provider/provider";
+import { userTypes } from "../../context/types/types";
 import { Grid, Slider } from "@material-ui/core";
+import {
+  PauseCircleOutline,
+  Shuffle,
+  SkipPrevious,
+  PlayCircleOutline,
+  SkipNext,
+  Repeat,
+  PlaylistPlay,
+  VolumeDown,
+} from "@material-ui/icons";
+import "./Footer.css";
 
-const Footer = () => {
+const Footer = ({ spotify }) => {
+  const [{ item, playing }, dispatch] = useStateValue();
+
+  useEffect(() => {
+    const getMyCurrentPlaybackState = async () => {
+      try {
+        const currentPlaybackState = await spotify.getMyCurrentPlaybackState();
+        dispatch({
+          type: userTypes.SET_PLAYING,
+          playing: currentPlaybackState.is_playing,
+        });
+
+        dispatch({
+          type: userTypes.SET_ITEM,
+          item: currentPlaybackState.item,
+        });
+      } catch (error) {
+        return error;
+      }
+    };
+
+    getMyCurrentPlaybackState();
+  }, [dispatch, spotify]);
+
+  const handlePlayPause = () => {
+    if (playing) {
+      spotify.pause();
+      dispatch({
+        type: userTypes.SET_PLAYING,
+        playing: false,
+      });
+    } else {
+      spotify.play();
+      dispatch({
+        type: userTypes.SET_PLAYING,
+        playing: true,
+      });
+    }
+  };
+
+  const skipNext = async () => {
+    try {
+      await spotify.skipToNext();
+      const currentPlayingTrack = await spotify.getMyCurrentPlayingTrack();
+      dispatch({
+        type: userTypes.SET_ITEM,
+        item: currentPlayingTrack.item,
+      });
+      dispatch({
+        type: userTypes.SET_PLAYING,
+        playing: true,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const skipPrevious = async () => {
+    try {
+      await spotify.skipToPrevious();
+      const currentPlayingTrack = await spotify.getMyCurrentPlayingTrack();
+      dispatch({
+        type: userTypes.SET_ITEM,
+        item: currentPlayingTrack.item,
+      });
+      dispatch({
+        type: userTypes.SET_PLAYING,
+        playing: true,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
+
   return (
     <div className="footer">
       <div className="footer__left">
-        <img src="" alt="" className="footer__albumLogo" />
-        <div className="footer__songInfo">
-          <h4>Yeah</h4>
-          <p>Usher</p>
-        </div>
+        <img
+          src={item?.album.images[0].url}
+          alt={item?.name}
+          className="footer__albumLogo"
+        />
+        {item ? (
+          <div className="footer__songInfo">
+            <h4>{item.name}</h4>
+            <p>{item.artists.map((artist) => artist.name).join(", ")}</p>
+          </div>
+        ) : (
+          <div className="footer__songInfo">
+            <h4>No song is playing</h4>
+            <p>...</p>
+          </div>
+        )}
       </div>
       <div className="footer__center">
-        <ShuffleIcon className="footer__green" />
-        <SkipPreviousIcon className="footer__icon" />
-        <PlayCircleOutlineIcon className="footer__icon" fontSize="large" />
-        <SkipNextIcon className="footer__icon" />
-        <RepeatIcon className="footer__green" />
+        <Shuffle className="footer__green" />
+        <SkipPrevious onClick={skipPrevious} className="footer__icon" />
+        {playing ? (
+          <PauseCircleOutline
+            className="footer__icon"
+            fontSize="large"
+            onClick={handlePlayPause}
+          />
+        ) : (
+          <PlayCircleOutline
+            onClick={handlePlayPause}
+            className="footer__icon"
+            fontSize="large"
+          />
+        )}
+
+        <SkipNext onClick={skipNext} className="footer__icon" />
+        <Repeat className="footer__green" />
       </div>
       <div className="footer__right">
         <Grid container spacing={2}>
           <Grid item>
-            <PlaylistPlayIcon />
+            <PlaylistPlay />
           </Grid>
           <Grid item>
-            <VolumeDownIcon />
+            <VolumeDown />
           </Grid>
           <Grid item xs>
             <Slider aria-labelledby="continuous-slider" />
