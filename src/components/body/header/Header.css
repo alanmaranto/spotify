@@ -28,3 +28,7 @@
 .header__right > h4 {
   margin-left: 10px;
 }
+
+.header__left > input:focus {
+  outline: 0;
+}
