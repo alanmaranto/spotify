@@ -1,5 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Deployment on firebase
+`npm run build`
+`npm i firebase`
+`firebase init`
+`firebase hosting`
+
 ## Available Scripts
 
 In the project directory, you can run:
