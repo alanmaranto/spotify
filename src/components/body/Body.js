@@ -30,7 +30,7 @@ const Body = ({ spotify }) => {
 
   const playSong = async (id) => {
     try {
-      const play = await spotify.play({
+      await spotify.play({
         uris: [`spotify:track:${id}`],
       });
       const getCurrentPlayingTrack = await spotify.getMyCurrentPlayingTrack();

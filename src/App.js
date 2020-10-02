@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Login from "./components/login/Login";
 import Player from "./components/player/Player";
 import { useStateValue } from "./context/provider/provider";
@@ -10,7 +10,7 @@ import "./App.css";
 const spotify = new SpotifyWebApi();
 
 function App() {
-  const [{ user, token }, dispatch] = useStateValue();
+  const [{ token }, dispatch] = useStateValue();
 
   useEffect(() => {
     const hash = getTokenFromUrl();
