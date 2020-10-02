@@ -6,14 +6,15 @@
 }
 
 .login > img {
-  width: 100%;
+  width: 40%;
+  padding-top: 50px;
 }
 
 .login > a {
   padding: 20px;
   background-color: #1db954;
   border-radius: 99px;
-  font-weight: 700;
+  font-weight: 800;
   color: white;
   text-decoration: none;
 }
