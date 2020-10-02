@@ -5,6 +5,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 `npm i firebase`
 `firebase init`
 `firebase hosting`
+![Screen Shot 2020-09-24 at 9 53 42 PM](https://user-images.githubusercontent.com/43775935/94221372-94100b00-feb0-11ea-825b-cb6d4105e3af.png)
+
+
+### ENV
+REACT_APP_AUTH_ENDPOINT=https://accounts.spotify.com/authorize
+REACT_APP_REDIRECT_URI=http://localhost:3000/
+REACT_APP_CLIENT_ID=yourClientId
+REACT_APP_CLIENT_SECRET=yourSecretId
 
 ## Available Scripts
 
