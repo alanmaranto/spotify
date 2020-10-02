@@ -1,5 +1,5 @@
 .sidebar {
-  height: 94.1vh;
+  height: 94vh;
   flex: 0.2;
   background: #040404;
   color: white;
@@ -10,10 +10,13 @@
 }
 
 .sidebar__logo {
-  height: 70px;
-  padding: 10px;
   margin-right: auto;
   object-fit: contain;
+  height: 40px;
+  width: 131px;
+  padding-top: 24px;
+  padding-left: 14px;
+  margin-bottom: 16px;
 }
 
 .sidebar__title {
@@ -26,4 +29,5 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
+  height: 61vh;
 }
